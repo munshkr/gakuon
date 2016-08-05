@@ -1,4 +1,4 @@
-# gakuon 楽音
+# gakuon 楽音 [![Build Status](https://travis-ci.org/munshkr/gakuon.svg?branch=master)](https://travis-ci.org/munshkr/gakuon)
 
 A Music Macro Language (MML) compiler for the C64 SID chip.
 
