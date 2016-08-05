@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "6502asm": "github:munshkr/6502asm.js",
+    "ejs": "^2.5.1",
     "pegjs": "^0.9.0"
   }
 }
