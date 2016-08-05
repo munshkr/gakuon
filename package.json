@@ -1,0 +1,25 @@
+{
+  "name": "gakuon",
+  "version": "0.1.0",
+  "description": "A Music Macro Language (MML) compiler for the Commodore 64 SID chip",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/munshkr/gakuon.git"
+  },
+  "keywords": [
+    "c64",
+    "sid",
+    "mml",
+    "compiler"
+  ],
+  "author": "Damián Silvani (@munshkr)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/munshkr/gakuon/issues"
+  },
+  "homepage": "https://github.com/munshkr/gakuon#readme"
+}
