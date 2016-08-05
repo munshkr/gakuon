@@ -2,12 +2,12 @@
   "name": "gakuon",
   "version": "0.1.0",
   "description": "A Music Macro Language (MML) compiler for the Commodore 64 SID chip",
-  "main": "index.js",
+  "main": "lib/compiler.js",
   "scripts": {
     "test": "mocha"
   },
   "bin": {
-    "gakuon": "./index.js"
+    "gakuon": "bin/gakuon.js"
   },
   "repository": {
     "type": "git",

@@ -4,10 +4,10 @@ const fs = require('fs');
 const path = require('path');
 const PEG = require('pegjs');
 
-const compile = require('./lib/compiler').compile;
+const compile = require('../lib/compiler').compile;
 
 const DEFAULT_OUT = './song.asm';
-const GRAMMAR_PATH = path.resolve(__dirname, 'lib/grammar.peg');
+const GRAMMAR_PATH = path.resolve(__dirname, '../lib/grammar.peg');
 
 function generateParser(grammarPath, options) {
   const grammar = fs.readFileSync(grammarPath).toString();
