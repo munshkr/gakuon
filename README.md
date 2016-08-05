@@ -2,8 +2,8 @@
 
 A Music Macro Language (MML) compiler for the C64 SID chip.
 
-This repository contains only the MML compiler of Gakuon. Go see the [visual
-editor](https://github.com/munshkr/gakuon-editor).
+This repository contains only the MML compiler of Gakuon. For the visual
+editor, see [here](https://github.com/munshkr/gakuon-editor).
 
 *NOTE: This is still in pre-alpha stage.* **It doesn't work!**
 
@@ -28,22 +28,12 @@ Chat with us at [Gitter](https://gitter.im/munshkr/gakuon)!
 
 After cloning repo, install all packages with `npm install`.
 
-To start up application, run:
-
-    npm start
-
-Then, visit [http://localhost:3333/](http://localhost:3333/)
-
 To run all tests, use `make` or `make test`.
 
 You might need these other dependencies for some of them:
 
   * [Vice](http://vice-emu.sourceforge.net/) emulator
   * [sidplayfp](https://sourceforge.net/projects/sidplay-residfp/) ReSID player
-
-### Editor
-
-Uses [CodeMirror](https://codemirror.net/) for the text editor component.
 
 ### MML parser
 
