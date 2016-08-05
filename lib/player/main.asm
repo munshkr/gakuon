@@ -435,20 +435,20 @@ sid_flt_res:  .byte 0
 sid_vol_mode: .byte $0c
 
 ;; song pointers
-song_ptr_lo: .byte <song_0, <song_1, <song_2
-song_ptr_hi: .byte >song_0, >song_1, >song_2
+song_ptr_lo: .byte <song0, <song1, <song2
+song_ptr_hi: .byte >song0, >song1, >song2
 playing:     .byte 0, 0, 0
 finished:    .byte 0, 0, 0
 
 ;; more state vars
-nlen_lo:   .byte 24, 24, 24
+nlen_lo:   .byte 23, 23, 23
 nlen_hi:   .byte 0, 0, 0
-qlen_lo:   .byte 20, 20, 20
+qlen_lo:   .byte 23, 23, 23
 qlen_hi:   .byte 0, 0, 0
 octave_n:  .byte 12*3, 12*3, 12*3
 transpose: .byte 0, 0, 0
 pitch:     .byte 0, 0, 0
-wave:      .byte $40, $40, $40
+wave:      .byte $10, $10, $10
 
 ;; counters
 nlen_c_lo: .byte 0, 0, 0
@@ -519,13 +519,13 @@ seq_value_hi: .byte 21, 22, 23
 
 eof: .byte I_EOF
 
-;; Frequency table
-<%- include("pal_freq.asm") %>
+<%- include("freq/pal.asm") %>
+
+;; Sequences
+<%# sequences %>
 
 ;; Notes/commands tables
-;;
-;; See I_ labels above
-;;
-;song_0: .byte $ff
-;song_1: .byte $ff
-;song_2: .byte $ff
+<%_ for (let i = 0; i < 3; i++) { _%>
+song<%- i %>:
+<%- this.byteTable(song[i]) %>
+<%_ } _%>
