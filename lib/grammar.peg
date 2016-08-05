@@ -1,0 +1,238 @@
+Document
+  = _ body:Body _
+  { return { type: 'document', body: body } }
+
+Body
+  = (e:Element _ { return e })*
+
+Element
+  = Directive
+  / Instrument
+  / Command
+
+Directive 'directive'
+  = '#' name:DirectiveName S+ arg:[^\n\r]* Newline?
+    { return { type: 'directive', name: name, arg: arg.join('') } }
+
+Instrument
+  = name:InstrumentName S+ first:(InstrumentBody / InstrumentName)
+    rest:(',' _ i:(InstrumentBody / InstrumentName) { return i })*
+    {
+      return {
+        type: 'instrument',
+        name: name,
+        bodies: [first].concat(rest)
+      }
+    }
+
+Command 'command'
+  = channels:[A-Z]+ sequence:(S+ s:CommandSequence Newline? { return s })?
+    { return { type: 'command', channels: channels, sequence: sequence } }
+
+DirectiveName
+  = name:[a-zA-Z\-_]+
+    { return name.join('').toLowerCase(); }
+
+InstrumentName 'instrument name'
+  = first:[a-z] rest:[a-zA-Z0-9\-_]*
+    { return first + rest.join('') }
+
+InstrumentBody
+  = '{' _ first:ParameterPair?
+        _ rest:(',' _ p:ParameterPair { return p })*
+        _ ','?
+        _ '}'
+    {
+      var body = {};
+      if (first) body[first.name] = first.value;
+      for (var i = 0; i < rest.length; i++) {
+        body[rest[i].name] = rest[i].value;
+      }
+      return body;
+    }
+
+ParameterPair
+  = name:ParameterName _ ':' _ value:ParameterValue _
+    { return { type: 'parameter', name: name, value: value } }
+
+ParameterName
+  = chars:[a-zA-Z\-_]+
+    { return chars.join('') }
+
+ParameterValue
+  = Sequence / Interval / Integer
+
+CommandSequence
+  = first:CommandAtom rest:(S* a:CommandAtom { return a })*
+    { return [first].concat(rest) }
+
+CommandAtom
+  = Note
+  / Rest
+  / AltRest
+  / SetTempo
+  / SetNoteLength
+  / IncOctave
+  / DecOctave
+  / SetInstrument
+  / SetQuantize
+  / SetDelay
+  / SetOctave
+  / Transpose
+  / SetPitch
+  / SetVolume
+  / IncVolume
+  / DecVolume
+  / Loop
+  / Scope
+
+Note
+  = note:[cdefgab] accidental:('+' / '-')? length:PosInteger? dots:'.'*
+    {
+      return {
+        type: 'note',
+        note: note,
+        accidental: accidental,
+        length: (length && length.value),
+        dots: dots.length,
+      }
+    }
+
+IncOctave
+  = '>'
+    { return { type: 'inc_octave' } }
+
+DecOctave
+  = '<'
+    { return { type: 'dec_octave' } }
+
+SetInstrument
+  = '@' inst:(InstrumentName / InstrumentBody)
+    {
+      var value;
+      if (typeof inst === 'string') {
+        value = { type: 'instrument_name', value: inst };
+      } else {
+        value = { type: 'anonymous_instrument', value: inst };
+      }
+      return { type: 'set_instrument', value: value };
+    }
+
+SetTempo
+  = 't' num:PosInteger
+    { return { type: 'set_tempo', value: num.value }; }
+
+SetNoteLength
+  = 'l' num:PosInteger
+    { return { type: 'set_note_length', value: num.value }; }
+
+SetQuantize
+  = 'q' num:Integer
+    { return { type: 'set_quantize', value: num.value }; }
+
+SetDelay
+  = 'k' num:PosInteger
+    { return { type: 'set_delay', value: num.value }; }
+
+SetOctave
+  = 'o' num:PosInteger
+    { return { type: 'set_octave', value: num.value }; }
+
+Transpose
+  = 'K' num:Integer
+    { return { type: 'transpose', value: num.value }; }
+
+SetPitch
+  = 'p' num:Integer
+    { return { type: 'set_pitch', value: num.value }; }
+
+SetVolume
+  = 'v' num:PosInteger
+    { return { type: 'set_volume', value: num.value }; }
+
+IncVolume
+  = 'v+' num:PosInteger
+    { return { type: 'inc_volume', value: num.value }; }
+
+DecVolume
+  = 'v-' num:PosInteger
+    { return { type: 'dec_volume', value: num.value }; }
+
+Loop
+  = '[' _ seq:CommandSequence? _ ']' times:PosInteger?
+    {
+      return {
+        type: 'loop',
+        body: (seq || []),
+        times: ((times && times.value) || 1)
+      };
+    }
+
+Scope
+  = '(' _ seq:CommandSequence? _ ')'
+    {
+      return {
+        type: 'scope',
+        body: (seq || []),
+      };
+    }
+
+Rest
+  = 'r' length:PosInteger? dots:'.'*
+    {
+      return {
+        type: 'rest',
+        length: (length && length.value),
+        dots: dots.length
+      };
+    }
+
+AltRest
+  = 's'
+
+Sequence
+  = '[' _ body:SequenceBody? _ ']'
+    { return body || [] }
+
+SequenceBody
+  = first:SequenceValue rest:(S _ v:SequenceValue { return v })*
+    { return [first].concat(rest); }
+
+SequenceValue
+  = Interval / Integer / Symbol / LoopMarker
+
+LoopMarker
+  = '|'
+    { return { type: 'loop-marker' }; }
+
+Interval
+  = from:Integer ':' to:Integer step:(':' s:Integer { return s })?
+    {
+      return {
+        type: 'interval',
+        from: from.value,
+        to: to.value,
+        step: (step && step.value)
+      };
+    }
+
+PosInteger
+  = [0-9]+
+    { return { type: 'integer', value: parseInt(text()) } }
+
+Integer
+  = neg:'-'? digits:[0-9]+
+    {
+      return {
+        type: 'integer',
+        value: parseInt((!neg ? '' : '-') + digits.join(''), 10)
+      };
+    }
+
+Symbol
+  = [a-z]+
+    { return { type: 'symbol', value: text() }; }
+
+Newline = '\n' / '\r' '\n'?
+S 'space' = [ \t]
+_ 'whitespace' = [ \t\n\r]*   /* Whitespace includes linefeed */
