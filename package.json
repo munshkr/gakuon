@@ -8,7 +8,7 @@
     "test": "mocha"
   },
   "bin": {
-    "gakuon": "bin/gakuon.js"
+    "gakuon": "bin/gakuon"
   },
   "repository": {
     "type": "git",
