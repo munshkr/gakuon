@@ -433,8 +433,8 @@ fetch_seq_byte:
 _fetch_seq_done:
   rts
 
-<%- include("songcmds.asm") %>
-<%- include("seqcmds.asm") %>
+<%- include("_songcmds.asm") %>
+<%- include("_seqcmds.asm") %>
 
 ;; === data ===
 
@@ -538,7 +538,7 @@ seq_value_hi: .byte 21, 22, 23
 
 eof: .byte I_EOF
 
-<%- include("freq/pal.asm") %>
+<%- include("freq/_pal.asm") %>
 
 ;; Sequences
 <%# sequences %>
