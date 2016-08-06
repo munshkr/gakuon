@@ -20,7 +20,7 @@ test-sid: $(MML:.mml=.sid)
 	sidplayfp $<
 
 %.sid: %.asm
-	node_modules/.bin/6502asm -o $@ $<
+	node_modules/.bin/6502asm.js -o $@ $<
 
 %.asm: %.mml $(SRC)
 	bin/gakuon -s -o $@ $<
