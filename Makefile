@@ -1,13 +1,17 @@
-.PHONY: test test-sid install-deps
+.PHONY: test parser test-sid install-deps
 
-all: test
+all: parser test
 
 install-deps:
 	npm install
 
 test:
 	npm test
-	$(MAKE) test-sid
+
+parser: lib/parser.js
+
+lib/parser.js: lib/grammar.peg
+	node_modules/.bin/pegjs --cache lib/grammar.peg lib/parser.js
 
 SRC=$(wildcard lib/**/*.js)
 MML=$(wildcard test/fixtures/*.mml)

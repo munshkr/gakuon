@@ -1,18 +1,10 @@
 const fs = require('fs');
 const assert = require('assert');
-const PEG = require('pegjs');
 
-const grammarPath = 'lib/grammar.peg';
-const grammar = fs.readFileSync(grammarPath).toString();
-
-function parseRule(rule) {
-  return PEG.buildParser(grammar, {allowedStartRules: [rule]}).parse;
-}
+const parse = require('../lib/parser').parse;
 
 describe('MML Parser', () => {
   describe('Document', () => {
-    const parse = parseRule('Document');
-
     it('can have Headers', () => {
       assert.deepEqual(
         parse(`#TITLE My song
