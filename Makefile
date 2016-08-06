@@ -23,4 +23,4 @@ test-sid: $(MML:.mml=.sid)
 	node_modules/.bin/6502asm -o $@ $<
 
 %.asm: %.mml $(SRC)
-	node bin/gakuon.js -s -o $@ $<
+	bin/gakuon -s -o $@ $<
