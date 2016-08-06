@@ -15,8 +15,9 @@ lib/parser.js: lib/grammar.peg
 
 SRC=$(wildcard lib/**/*.js)
 MML=$(wildcard test/fixtures/*.mml)
+SID=$(MML:.mml=.sid)
 
-test-sid: $(MML:.mml=.sid)
+test-sid: $(SID)
 	sidplayfp $<
 
 %.sid: %.asm
@@ -24,3 +25,6 @@ test-sid: $(MML:.mml=.sid)
 
 %.asm: %.mml $(SRC)
 	bin/gakuon -s -o $@ $<
+
+clean:
+	rm -f $(SID)
