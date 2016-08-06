@@ -1,6 +1,6 @@
-.PHONY: test parser test-sid install-deps
+.PHONY: test parser player test-sid install-deps
 
-all: parser test
+all: parser player test
 
 install-deps:
 	npm install
@@ -12,6 +12,17 @@ parser: lib/parser.js
 
 lib/parser.js: lib/grammar.peg
 	node_modules/.bin/pegjs --cache lib/grammar.peg lib/parser.js
+
+CC_TPL=script/compile_templates.js
+PLAYER_SRC=$(wildcard lib/player/*.asm) $(wildcard lib/player/**/*.asm)
+
+player: lib/player/sid.js lib/player/prg.js
+
+lib/player/sid.js: lib/player/sid.asm $(PLAYER_SRC)
+	$(CC_TPL) $^
+
+lib/player/prg.js: lib/player/prg.asm $(PLAYER_SRC)
+	$(CC_TPL) $^
 
 SRC=$(wildcard lib/**/*.js)
 MML=$(wildcard test/fixtures/*.mml)
@@ -27,4 +38,4 @@ test-sid: $(SID)
 	bin/gakuon -s -o $@ $<
 
 clean:
-	rm -f $(SID)
+	rm -f $(SID) lib/parser.js lib/player/sid.js lib/player/prg.js

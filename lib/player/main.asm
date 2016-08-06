@@ -1,3 +1,22 @@
+<%
+  function asm(value) {
+    let str;
+    if (typeof(value) === 'number') {
+      str = `$${value.toString(16)}`;
+    } else {
+      str = value;
+    }
+    return str;
+  }
+
+  function byteTable(values) {
+    let ss = '';
+    values.eachSlice(10, (slice) => {
+      ss = ss + '  .byte ' + slice.map((v) => { return asm(v); }).join(', ') + '\n';
+    });
+    return ss;
+  }
+%>
 ;; === defines ===
 
 ;; Song commands and flags
@@ -527,5 +546,5 @@ eof: .byte I_EOF
 ;; Notes/commands tables
 <%_ for (let i = 0; i < 3; i++) { _%>
 song<%- i %>:
-<%- this.byteTable(song[i]) %>
+<%- byteTable(song[i]) %>
 <%_ } _%>

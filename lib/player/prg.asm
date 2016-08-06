@@ -46,4 +46,4 @@ irq:
 
 .res $1000 - *
 
-<%- include('main.asm') %>
+<%- include('main.asm', { debug: debug, song: song }) %>

@@ -65,11 +65,7 @@ let outputPath = program.output || outputPathFromOptions(program);
 try {
   const source = fs.readFileSync(inputPath).toString();
 
-  const templatePath = path.join(__dirname, program.player ?
-    '../lib/player/prg_player.asm' : '../lib/player/sid_player.asm');
-  const template = fs.readFileSync(templatePath).toString();
-
-  let out = compile(source, { template: template });
+  let out = compile(source, { player: program.player });
 
   if (program.source) {
     fs.writeFileSync(outputPath, out);
