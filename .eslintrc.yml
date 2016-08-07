@@ -20,4 +20,3 @@ rules:
     - error
     - always
   no-console: off
-  no-debugger: warn
