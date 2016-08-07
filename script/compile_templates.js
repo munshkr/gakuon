@@ -23,7 +23,6 @@ function outputPathFrom(sourcePath) {
 }
 
 function include(includePath, includedData) {
-  debugger;
   return templates[includePath](includedData);
 }
 
