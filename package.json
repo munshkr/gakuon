@@ -5,7 +5,8 @@
   "main": "lib/compiler.js",
   "scripts": {
     "prepublish": "make",
-    "test": "node_modules/.bin/eslint lib/**/*.js test/**/*.js script/*.js bin/gakuon && mocha"
+    "test": "npm run lint && mocha",
+    "lint": "eslint lib/**/*.js test/**/*.js script/*.js bin/gakuon"
   },
   "bin": {
     "gakuon": "bin/gakuon"
