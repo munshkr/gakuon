@@ -5,7 +5,7 @@
   "main": "lib/compiler.js",
   "scripts": {
     "prepublish": "make",
-    "test": "mocha"
+    "test": "node_modules/.bin/eslint lib/**/*.js test/**/*.js script/*.js bin/gakuon && mocha"
   },
   "bin": {
     "gakuon": "bin/gakuon"
@@ -27,9 +27,17 @@
   },
   "homepage": "https://github.com/munshkr/gakuon#readme",
   "devDependencies": {
-    "pegjs": "^0.9.0",
+    "ejs": "^2.5.1",
+    "eslint": "^3.2.2",
+    "eslint-config-airbnb": "^10.0.0",
+    "eslint-config-standard": "^5.3.5",
+    "eslint-plugin-import": "^1.12.0",
+    "eslint-plugin-jsx-a11y": "^2.0.1",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-react": "^6.0.0",
+    "eslint-plugin-standard": "^2.0.0",
     "mocha": "^3.0.1",
-    "ejs": "^2.5.1"
+    "pegjs": "^0.9.0"
   },
   "dependencies": {
     "6502asm": "github:munshkr/6502asm.js"
