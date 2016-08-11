@@ -57,23 +57,28 @@ Hexit 'hex digit'
 
 DecLiteral "decimal number literal"
   = neg:[-]? digits:Digit+
-    { return parseInt((!neg ? '' : '-') + digits.join(''), 10); }
+    {
+      return {
+        type: 'number',
+        value: parseInt((!neg ? '' : '-') + digits.join(''), 10)
+      }
+    }
 
 PosDecLiteral "positive decimal number literal"
   = digits:Digit+
-    { return parseInt(text(), 10); }
+    { return { type: 'number', value: parseInt(text(), 10) } }
 
 HexLiteral
   = ('$' / '0x') hexits:Hexit+
-    { return parseInt(hexits.join(''), 16); }
+    { return { type: 'number', value: parseInt(hexits.join(''), 16) } }
 
 NumLiteral "number literal"
   = n:(HexLiteral / DecLiteral)
-    { return { type: 'number', value: n }; }
+    { return { type: 'number', value: n.value }; }
 
 PosNumLiteral "positive number literal"
   = n:(HexLiteral / PosDecLiteral)
-    { return { type: 'number', value: n }; }
+    { return { type: 'number', value: n.value }; }
 
 
 __ = (S / LineTerminatorSequence)*
@@ -130,7 +135,13 @@ Instrument
 
 Command 'command'
   = channels:[A-Z]+ sequence:(S+ s:CommandSequence { return s })?
-    { return { type: 'command', channels: channels, sequence: sequence } }
+    {
+      return {
+        type: 'command',
+        channels: channels,
+        sequence: optionalList(sequence)
+      }
+    }
 
 Element
   = Directive
@@ -184,6 +195,10 @@ SetQuantize
   = 'q' num:DecLiteral
     { return { type: 'set_quantize', value: num.value }; }
 
+SetQuantizeFrames
+  = 'Q' num:DecLiteral
+    { return { type: 'set_quantize_frames', value: num.value }; }
+
 SetDelay
   = 'k' num:PosDecLiteral
     { return { type: 'set_delay', value: num.value }; }
@@ -205,12 +220,12 @@ SetVolume
     { return { type: 'set_volume', value: num.value }; }
 
 IncVolume
-  = 'v+' num:PosDecLiteral
-    { return { type: 'inc_volume', value: num.value }; }
+  = 'v+'
+    { return { type: 'inc_volume' }; }
 
 DecVolume
-  = 'v-' num:PosDecLiteral
-    { return { type: 'dec_volume', value: num.value }; }
+  = 'v-'
+    { return { type: 'dec_volume' }; }
 
 Loop
   = '[' __ seq:CommandSequence? __ ']' times:PosDecLiteral?
@@ -254,6 +269,7 @@ CommandAtom
   / DecOctave
   / SetInstrument
   / SetQuantize
+  / SetQuantizeFrames
   / SetDelay
   / SetOctave
   / Transpose
@@ -291,7 +307,7 @@ SymbolLiteral
 
 LoopMarkerLiteral
   = '|'
-    { return { type: 'loop-marker' }; }
+    { return { type: 'loop_marker' }; }
 
 SequenceValue
   = Interval / NumLiteral / SymbolLiteral / LoopMarkerLiteral
