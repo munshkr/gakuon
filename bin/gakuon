@@ -3,7 +3,7 @@ const process = require('process');
 const fs = require('fs');
 const path = require('path');
 
-const compile = require('../lib/compiler').compile;
+const Compiler  = require('../lib/compiler').Compiler;
 const Assembler = require('6502asm').Assembler;
 
 let program = require('commander');
@@ -64,7 +64,8 @@ let outputPath = program.output || outputPathFromOptions(program);
 try {
   const source = fs.readFileSync(inputPath).toString();
 
-  let out = compile(source, { player: program.player });
+  let compiler = new Compiler({ player: program.player });
+  let out = compiler.compile(source);
 
   if (program.source) {
     fs.writeFileSync(outputPath, out);

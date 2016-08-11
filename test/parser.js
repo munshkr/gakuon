@@ -11,7 +11,7 @@ function buildDocument(body) {
   return { type: 'document', body: body };
 }
 
-describe('MML Parser', () => {
+describe('Parser', () => {
   describe('Directive', () => {
     it('starts with a # and has a name', () => {
       assert.deepEqual(parse('#foo'),
