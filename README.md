@@ -23,6 +23,24 @@ know more about the syntax.  It is inspired on
 
 Chat with us at [Gitter](https://gitter.im/munshkr/gakuon)!
 
+## Usage
+
+```javascript
+const gk = require('gakuon');
+
+let source = "A l8 ccdd eeff\n";
+
+// Parse string and compile into assembly code
+let compiler = new gk.Compiler();
+let asm = compiler.compile(source);
+
+// Or, define a Document based on an MML string...
+let doc = new gk.Document(source);
+
+// ...and from that document, generate assembly code
+let codeGen = new gk.CodeGenerator();
+asm = codeGen.generate(doc);
+```
 
 ## Development
 
