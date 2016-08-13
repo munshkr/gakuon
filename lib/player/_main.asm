@@ -11,10 +11,16 @@
 
   function byteTable(values) {
     let ss = '';
-    values.eachSlice(10, (slice) => {
+    eachSlice(values, 10, (slice) => {
       ss = ss + '  .byte ' + slice.map((v) => { return asm(v); }).join(', ') + '\n';
     });
     return ss;
+  }
+
+  function eachSlice(ary, size, callback) {
+    for (var i = 0, l = ary.length; i < l; i += size) {
+      callback.call(ary, ary.slice(i, i + size));
+    }
   }
 %>
 ;; === defines ===

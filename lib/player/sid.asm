@@ -26,9 +26,9 @@ CLOCK = C_PAL
 .byte 0,1                 ; songs
 .byte 0,1                 ; startSong
 .word 0,CLOCK             ; speed
-.aasc "<%- headers.title.padRight(32) %>"
-.aasc "<%- headers.author.padRight(32) %>"
-.aasc "<%- headers.released.padRight(32) %>"
+.aasc "<%- headers.title %>"
+.aasc "<%- headers.author %>"
+.aasc "<%- headers.released %>"
 .byte 0,FLAGS             ; flags (PAL 6581 only)
 .byte 0                   ; startPage
 .byte 0                   ; pageLength
