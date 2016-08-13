@@ -34,12 +34,13 @@ let source = "A l8 ccdd eeff\n";
 let compiler = new gk.Compiler();
 let asm = compiler.compile(source);
 
-// Or, define a Document based on an MML string...
+// You can get information about the MML document with the
+// Document object:
 let doc = new gk.Document(source);
+console.log(doc.initialState.noteLength);  // 8
 
-// ...and from that document, generate assembly code
-let codeGen = new gk.CodeGenerator();
-asm = codeGen.generate(doc);
+let codeGen = new gk.CodeGenerator(doc);
+asm = codeGen.generate();
 ```
 
 ## Development
