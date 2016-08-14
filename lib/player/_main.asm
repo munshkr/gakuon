@@ -9,9 +9,10 @@
     return str;
   }
 
-  function byteTable(values) {
+  function byteTable(values, sliceSize) {
+    sliceSize = sliceSize || 10;
     let ss = '';
-    eachSlice(values, 10, (slice) => {
+    eachSlice(values, sliceSize, (slice) => {
       ss = ss + '  .byte ' + slice.map((v) => { return asm(v); }).join(', ') + '\n';
     });
     return ss;
@@ -552,5 +553,5 @@ eof: .byte I_EOF
 ;; Notes/commands tables
 <%_ for (let i = 0; i < 3; i++) { _%>
 song<%- i %>:
-<%- byteTable(song[i]) %>
+<%- byteTable(song[i], 1) %>
 <%_ } _%>
