@@ -23,6 +23,18 @@
       callback.call(ary, ary.slice(i, i + size));
     }
   }
+
+  function initTriple(callback) {
+    return byteTable(initialStates.map(callback));
+  }
+
+  function lowByte(word) {
+    return word & 0xff;
+  }
+
+  function highByte(word) {
+    return (word>>8) & 0xff;
+  }
 %>
 ;; === defines ===
 
@@ -451,8 +463,8 @@ sid_freq_hi:  .byte 0, 0, 0
 sid_pw_lo:    .byte 0, 0, 0
 sid_pw_hi:    .byte $8, $8, $8
 sid_control:  .byte 0, 0, 0
-sid_ad:       .byte $08, $70, $80
-sid_sr:       .byte $40, $e1, $e1
+sid_ad:     <%- initTriple(s => { return s.ad }) -%>
+sid_sr:     <%- initTriple(s => { return s.sr }) -%>
 
 ;; ghost registers for all channels
 sid_fc_lo:    .byte 0
@@ -467,14 +479,14 @@ playing:     .byte 0, 0, 0
 finished:    .byte 0, 0, 0
 
 ;; more state vars
-nlen_lo:   .byte 23, 23, 23
-nlen_hi:   .byte 0, 0, 0
-qlen_lo:   .byte 23, 23, 23
-qlen_hi:   .byte 0, 0, 0
-octave_n:  .byte 12*3, 12*3, 12*3
-transpose: .byte 0, 0, 0
-pitch:     .byte 0, 0, 0
-wave:      .byte $10, $10, $10
+nlen_lo:   <%- initTriple(s => { return lowByte(s.noteLengthFrames) }) -%>
+nlen_hi:   <%- initTriple(s => { return highByte(s.noteLengthFrames) }) -%>
+qlen_lo:   <%- initTriple(s => { return lowByte(s.quantLengthFrames) }) -%>
+qlen_hi:   <%- initTriple(s => { return highByte(s.quantLengthFrames) }) -%>
+octave_n:  <%- initTriple(s => { return s.octave * 12}) -%>
+transpose: <%- initTriple(s => { return s.transpose }) -%>
+pitch:     <%- initTriple(s => { return s.pitch }) -%>
+wave:      <%- initTriple(s => { return s.wave }) -%>
 
 ;; counters
 nlen_c_lo: .byte 0, 0, 0

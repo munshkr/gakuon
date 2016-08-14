@@ -36,4 +36,4 @@ CLOCK = C_PAL
 
 * = BASEADDR
 
-<%- include('_main.asm', { debug: debug, song: song }) %>
+<%- include('_main.asm', { debug: debug, song: song, initialStates: initialStates, sequences: sequences }) %>
