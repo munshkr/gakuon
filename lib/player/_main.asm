@@ -278,8 +278,8 @@ _reload_counters:
   and #%01110000
   sta ZP_TEMP
 
-  cmp #WITH_LEN_FLAG
-  beq _note_with_len
+  and #WITH_LEN_FLAG
+  bne _note_with_len
 
   ;; reload frame counters with default lengths
   lda nlen_lo, x
@@ -301,8 +301,8 @@ _skip_len_hi:
 
 _reload_q_counters:
   lda ZP_TEMP
-  cmp #WITH_Q_FLAG
-  beq _note_with_quant
+  and #WITH_Q_FLAG
+  bne _note_with_quant
 
   ;; reload quantization frame counters with defaults
   lda qlen_lo, x
