@@ -220,12 +220,12 @@ SetVolume
     { return { type: 'set_volume', value: num.value }; }
 
 IncVolume
-  = 'v+'
-    { return { type: 'inc_volume' }; }
+  = 'v+' num:PosDecLiteral?
+    { return { type: 'inc_volume', value: num }; }
 
 DecVolume
-  = 'v-'
-    { return { type: 'dec_volume' }; }
+  = 'v-' num:PosDecLiteral?
+    { return { type: 'dec_volume', value: num }; }
 
 Loop
   = '[' __ seq:CommandSequence? __ ']' times:PosDecLiteral?

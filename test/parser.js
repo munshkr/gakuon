@@ -330,18 +330,18 @@ describe('Parser', () => {
     it('has an Increase Volume command', () => {
       assert.deepEqual(parse('A c v+ d v+'), prg([
         { type: 'note', note: 'c', length: null, dots: 0, accidental: null },
-        { type: 'inc_volume' },
+        { type: 'inc_volume', value: null },
         { type: 'note', note: 'd', length: null, dots: 0, accidental: null },
-        { type: 'inc_volume' }
+        { type: 'inc_volume', value: null }
       ]));
     });
 
     it('has an Decrease Volume command', () => {
       assert.deepEqual(parse('A c v- d v-'), prg([
         { type: 'note', note: 'c', length: null, dots: 0, accidental: null },
-        { type: 'dec_volume' },
+        { type: 'dec_volume', value: null },
         { type: 'note', note: 'd', length: null, dots: 0, accidental: null },
-        { type: 'dec_volume' }
+        { type: 'dec_volume', value: null }
       ]));
     });
 
