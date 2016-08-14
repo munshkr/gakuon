@@ -371,6 +371,10 @@ describe('Parser', () => {
   });
 
   describe('Document', () => {
+    it('can be empty', () => {
+      assert.deepEqual(parse(''), buildDocument());
+    });
+
     it('can have Headers', () => {
       assert.deepEqual(
         parse(`#TITLE My song

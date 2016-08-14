@@ -335,5 +335,5 @@ Body
     }
 
 Document
-  = body:Body
-    { return { type: 'document', body: body }; }
+  = body:Body?
+    { return { type: 'document', body: optionalList(body) }; }
