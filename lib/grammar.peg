@@ -323,15 +323,15 @@ Sequence
 /* ----- Documents ----- */
 
 Body
-  = head:Element tail:(LineTerminatorSequence+ S* e:Element {return e})*
+  = head:Element tail:(__ e:Element {return e})*
     {
-      var statements = [head];
+      var elements = [head];
       for (var i = 0; i < tail.length; i++) {
-        statements = statements.concat(tail[i]);
+        elements = elements.concat(tail[i]);
       }
-      statements = statements
+      elements = elements
         .filter(function(e) { return (e.type !== 'comment'); });
-      return statements;
+      return elements;
     }
 
 Document

@@ -375,13 +375,96 @@ describe('Parser', () => {
       assert.deepEqual(parse(''), buildDocument());
     });
 
-    it('can have Headers', () => {
+    it('can have Directives', () => {
       assert.deepEqual(
         parse(`#TITLE My song
                        #AUTHOR n0x\n`),
         buildDocument([
           { type: 'directive', name: 'title', arg: 'My song' },
           { type: 'directive', name: 'author', arg: 'n0x' }
+        ])
+      );
+    });
+
+    it('can have Commands', () => {
+      assert.deepEqual(
+        parse(`
+          ABC t120 cde  
+          A c
+        `),
+        buildDocument([
+          {
+            type: 'command',
+            channels: ['A', 'B', 'C'],
+            sequence: [
+              { type: 'set_tempo', value: 120 },
+              { type: 'note', note: 'c', length: null, dots: 0, accidental: null },
+              { type: 'note', note: 'd', length: null, dots: 0, accidental: null },
+              { type: 'note', note: 'e', length: null, dots: 0, accidental: null }
+            ]
+          },
+          {
+            type: 'command',
+            channels: ['A'],
+            sequence: [
+              { type: 'note', note: 'c', length: null, dots: 0, accidental: null }
+            ]
+          }
+        ])
+      );
+    });
+
+    it('can have Instruments', () => {
+      assert.deepEqual(
+        parse(`
+          inst1 {
+            foo: [1 2],  
+            bar: 1:10  
+          }
+
+          inst1bis {
+            baz: 42
+          }, inst1  
+
+          A @inst1bis c`),
+        buildDocument([
+          {
+            type: 'instrument',
+            name: 'inst1',
+            bodies: [
+              {
+                foo: {
+                  type: 'sequence',
+                  value: [
+                    { type: 'number', value: 1 },
+                    { type: 'number', value: 2 }
+                  ]
+                },
+                bar: {
+                  type: 'interval',
+                  from: 1,
+                  to: 10,
+                  step: null
+                }
+              }
+            ]
+          },
+          {
+            type: 'instrument',
+            name: 'inst1bis',
+            bodies: [
+              { baz: { type: 'number', value: 42 } },
+              'inst1'
+            ]
+          },
+          {
+            type: 'command',
+            channels: ['A'],
+            sequence: [
+              { type: 'set_instrument', value: { type: 'instrument_name', value: 'inst1bis' } },
+              { type: 'note', note: 'c', length: null, dots: 0, accidental: null },
+            ]
+          }
         ])
       );
     });
