@@ -26,9 +26,9 @@ CLOCK = C_PAL
 .byte 0,1                 ; songs
 .byte 0,1                 ; startSong
 .word 0,CLOCK             ; speed
-.aasc "<%- headers.title %>"
-.aasc "<%- headers.author %>"
-.aasc "<%- headers.released %>"
+.aasc "<%- locals.headers.title %>"
+.aasc "<%- locals.headers.author %>"
+.aasc "<%- locals.headers.released %>"
 .byte 0,FLAGS             ; flags (PAL 6581 only)
 .byte 0                   ; startPage
 .byte 0                   ; pageLength
@@ -36,4 +36,9 @@ CLOCK = C_PAL
 
 * = BASEADDR
 
-<%- include('_main.asm', { debug: debug, song: song, initialStates: initialStates, sequences: sequences }) %>
+<%- include('_main.asm', {
+  debug: locals.debug,
+  song: locals.song,
+  initialStates: locals.initialStates,
+  sequences: locals.sequences
+}) %>

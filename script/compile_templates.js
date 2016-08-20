@@ -40,7 +40,9 @@ for (let includePath of includePaths) {
   if (!templates[basename]) {
     templates[basename] = ejs.compile(includeSource, {
       filename: includePath,
-      client: true
+      client: true,
+      strict: true,
+      _with: false
     });
   }
 }
@@ -59,7 +61,9 @@ __module += `};\n\n`;
 let source = fs.readFileSync(sourcePath).toString();
 let sourceFn = ejs.compile(source, {
   filename: sourcePath,
-  client: true
+  client: true,
+  strict: true,
+  _with: false
 });
 __module += `module.exports = function(data) {\n` +
   `var include = ${include};\n` +

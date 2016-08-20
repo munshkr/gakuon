@@ -46,4 +46,9 @@ irq:
 
 .res $1000 - *
 
-<%- include('_main.asm', { debug: debug, song: song, initialStates: initialStates, sequences: sequences }) %>
+<%- include('_main.asm', {
+  debug: locals.debug,
+  song: locals.song,
+  initialStates: locals.initialStates,
+  sequences: locals.sequences
+}) %>

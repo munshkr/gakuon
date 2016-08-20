@@ -25,7 +25,7 @@
   }
 
   function initTriple(callback) {
-    return byteTable(initialStates.map(callback));
+    return byteTable(locals.initialStates.map(callback));
   }
 
   function lowByte(word) {
@@ -132,7 +132,7 @@ play:
   ldx #2
   jsr play_channel
 
-<% if (debug) { %>
+<% if (locals.debug) { %>
   inc global_counter
   bne _skip_global_counter
   inc global_counter+1
@@ -535,7 +535,7 @@ pw_seq:     ; word sequence
   .byte 0, 0, 0
   .byte 0, 0, 0
 
-<% if (debug) { %>
+<% if (locals.debug) { %>
 global_counter: .word 0
 <% } %>
 
@@ -565,5 +565,5 @@ eof: .byte I_EOF
 ;; Notes/commands tables
 <%_ for (let i = 0; i < 3; i++) { _%>
 song<%- i %>:
-<%- byteTable(song[i], 1) %>
+<%- byteTable(locals.song[i], 1) %>
 <%_ } _%>
