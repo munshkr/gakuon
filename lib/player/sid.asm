@@ -20,7 +20,7 @@ CLOCK = C_PAL
 .aasc "PSID"              ; magicId
 .byte 0,2                 ; version
 .byte 0,$7c               ; dataOffset
-.byte >BASEADDR,<BASEADDR ; loadAddress (loadAddress == dataOffset)
+.byte 0,0                 ; loadAddress (0 means that load addr is at 0x7c)
 .byte >init,<init         ; initAddress
 .byte >play,<play         ; playAddress
 .byte 0,1                 ; songs
@@ -34,6 +34,7 @@ CLOCK = C_PAL
 .byte 0                   ; pageLength
 .byte 0,0                 ; (reserved)
 
+.word BASEADDR
 * = BASEADDR
 
 <%- include('_main.asm', {
