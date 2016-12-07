@@ -53,9 +53,9 @@ for (let b in templates) {
   __module += `${JSON.stringify(b)}: function(data) {\n` +
     `var include = ${include};\n` +
     `var fn = ${templates[b]};\n` +
-    `return fn(data, null, include);\n},\n`;
+    'return fn(data, null, include);\n},\n';
 }
-__module += `};\n\n`;
+__module += '};\n\n';
 
 // Finally include template function for source
 let source = fs.readFileSync(sourcePath).toString();
@@ -65,10 +65,10 @@ let sourceFn = ejs.compile(source, {
   strict: true,
   _with: false
 });
-__module += `module.exports = function(data) {\n` +
+__module += 'module.exports = function(data) {\n' +
   `var include = ${include};\n` +
   `var fn = ${sourceFn};\n` +
-  `return fn(data, null, include);\n}\n;`;
+  'return fn(data, null, include);\n}\n;';
 
 // Output __module
 let outputPath = outputPathFrom(sourcePath);

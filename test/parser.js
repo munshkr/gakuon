@@ -49,9 +49,11 @@ describe('Parser', () => {
 
     it('has a body with parameters', () => {
       assert.deepEqual(parse('foo { a: 0, b: 1, c: 2 }'),
-        prg([ { a: { type: 'number', value: 0 },
-                b: { type: 'number', value: 1 },
-                c: { type: 'number', value: 2 } } ]));
+        prg([ {
+          a: { type: 'number', value: 0 },
+          b: { type: 'number', value: 1 },
+          c: { type: 'number', value: 2 }
+        } ]));
     });
 
     it('has many bodies, separated by commas', () => {
@@ -67,8 +69,7 @@ describe('Parser', () => {
 
     it('has both bodies and identifiers, separated by commas', () => {
       assert.deepEqual(parse('foo { a: 1 }, bass'),
-        prg([ { a: { type: 'number', value: 1 } },
-              'bass' ]));
+        prg([ { a: { type: 'number', value: 1 } }, 'bass' ]));
     });
 
     describe('ParameterValue', () => {
