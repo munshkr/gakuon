@@ -11,7 +11,7 @@ test:
 parser: lib/parser.js
 
 lib/parser.js: lib/grammar.peg
-	node_modules/.bin/pegjs --cache $< $@
+	node_modules/.bin/pegjs --cache --output $@ $< 
 
 CC_TPL=script/compile_templates.js
 

@@ -1,10 +1,10 @@
 const assert = require('assert');
 const fs = require('fs');
-const PEG = require('pegjs');
+const peg = require('pegjs');
 const path = require('path');
 
 const grammar = fs.readFileSync(path.join(__dirname, '../lib/grammar.peg')).toString();
-const parse = PEG.buildParser(grammar).parse;
+const parse = peg.generate(grammar).parse;
 
 function buildDocument(body) {
   body = body || [];
