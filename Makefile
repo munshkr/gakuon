@@ -28,7 +28,7 @@ MML=$(wildcard test/fixtures/*.mml)
 SID=$(MML:.mml=.sid)
 
 test-sid: $(SID)
-	sidplayfp $<
+	for sid in $^; do sidplayfp -t10 $$sid; done
 
 %.sid: %.mml $(SRC)
 	bin/gakuon -o $@ $<
