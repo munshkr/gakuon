@@ -35,6 +35,8 @@
   function highByte(word) {
     return (word>>8) & 0xff;
   }
+
+  var sequences = ['pw_seq'];
 %>
 ;; === defines ===
 
@@ -324,8 +326,9 @@ _skip_q_hi:
 
 _reset_sequence_indexes:
   lda #0
-  ;; TODO Do it for all sequences
-  sta pw_seq + SEQ_I, x
+  <% for (var seq of sequences) { %>
+  sta <%= seq %> + SEQ_I, x
+  <% } %>
 
   lda #1
   sta playing, x
@@ -333,17 +336,18 @@ _reset_sequence_indexes:
 _play_sequences:
   ;; TODO Do it for all sequences
 
+  <% for (var seq of sequences) { %>
   ;; ************************************************
-  lda #<pw_seq
+  lda #<<%- seq %>
   sta ZP_PTR_LO
-  lda #>pw_seq
+  lda #><%- seq %>
   sta ZP_PTR_HI
 
-  lda pw_seq + SEQ_LO, x
+  lda <%- seq %> + SEQ_LO, x
   sta ZP_SEQ_LO
-  lda pw_seq + SEQ_HI, x
+  lda <%- seq %> + SEQ_HI, x
   sta ZP_SEQ_HI
-  lda pw_seq + SEQ_I, x
+  lda <%- seq %> + SEQ_I, x
   sta ZP_SEQ_I
 
   jsr play_sequence
@@ -359,6 +363,7 @@ _play_sequences:
   lda ZP_SEQ_I
   sta pw_seq + SEQ_I, x
   ;; ************************************************
+  <% } %>
 
   rts
 
