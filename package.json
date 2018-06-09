@@ -30,7 +30,7 @@
   "devDependencies": {
     "ejs": "^2.5.1",
     "eslint": "^3.2.2",
-    "mocha": "^3.0.1",
+    "mocha": "^5.2.0",
     "pegjs": "^0.10.0"
   },
   "dependencies": {
